@@ -97,6 +97,9 @@
     </None>
   </ItemGroup>
   <ItemGroup>
+    <PackageReference Include="EPPlus">
+      <Version>4.5.3.2</Version>
+    </PackageReference>
     <PackageReference Include="Prism.DryIoc" Version="7.1.0.431" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

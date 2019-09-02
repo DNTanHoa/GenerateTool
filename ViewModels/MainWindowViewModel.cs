@@ -143,6 +143,7 @@ namespace GenerateTool.ViewModels
             }
             else
             {
+                ExcelHelper.ExcelHelperGetTable(0, inputFile);
                 for(int i = 0; i < 10; i++)
                 {
                     XAFHelper.XAFMakeFile("User", outFolder, out string createdFileName);
