@@ -4,6 +4,7 @@ using System;
 using Microsoft.Win32;
 using GenerateTool.Helper;
 using System.ComponentModel;
+using System.Data;
 
 namespace GenerateTool.ViewModels
 {
@@ -56,8 +57,19 @@ namespace GenerateTool.ViewModels
             }
         }
 
-        private int _startSheet;
-        public int startSheet
+        private string _notify;
+        public string notify
+        {
+            get => _notify;
+            set
+            {
+                SetProperty(ref _notify, value);
+                RaisePropertyChanged(nameof(notify));
+            }
+        }
+
+        private string _startSheet;
+        public string startSheet
         {
             get => _startSheet;
             set
@@ -67,8 +79,8 @@ namespace GenerateTool.ViewModels
             }
         }
 
-        private int _endSheet;
-        public int endSheet
+        private string _endSheet;
+        public string endSheet
         {
             get => _endSheet;
             set
@@ -99,6 +111,17 @@ namespace GenerateTool.ViewModels
             }
         }
 
+        private string _nameSpace;
+        public string nameSpace
+        {
+            get => _nameSpace;
+            set
+            {
+                SetProperty(ref _nameSpace, value);
+                RaisePropertyChanged(nameof(nameSpace));
+            }
+        }
+
         public BackgroundWorker _generateWorker;
         
         public DelegateCommand getInputFile { get; set; }
@@ -126,9 +149,14 @@ namespace GenerateTool.ViewModels
         public DelegateCommand generate { get; set; }
         public void generateExecute()
         {
-            if(_generateWorker.IsBusy != true)
+
+            if (this.startSheet.Equals("") || this.endSheet.Equals("")) return;
+
+            if (_generateWorker.IsBusy != true)
             {
                 _generateWorker.RunWorkerAsync();
+                this.notify = string.Empty;
+                this.notify = "Generating database........";
             }
         }
         
@@ -136,19 +164,24 @@ namespace GenerateTool.ViewModels
         private void generateWorker(object sender, DoWorkEventArgs e)
         {
             var worker = sender as BackgroundWorker;
-            
+
             if(worker.CancellationPending)
             {
                 e.Cancel = true;
             }
             else
             {
-                ExcelHelper.ExcelHelperGetTable(0, inputFile);
-                for(int i = 0; i < 10; i++)
+                string sheetName = string.Empty;
+                int start = int.Parse(startSheet);
+                int end = int.Parse(endSheet);
+                /*Read All Sheet*/
+                for (int sheet = start; sheet < end; sheet++)
                 {
-                    XAFHelper.XAFMakeFile("User", outFolder, out string createdFileName);
-                    XAFHelper.XAFWrite("HRM.Module.BusinessObject", "User", createdFileName, outFolder);
-                    worker.ReportProgress(i * 10 + 10);
+                    DataTable table = ExcelHelper.ExcelHelperGetTable(sheet, inputFile, out sheetName);
+                    XAFHelper.XAFMakeFile(sheetName, outFolder, out string createdFileName);
+                    XAFHelper.XAFWrite(nameSpace, sheetName, createdFileName, outFolder, table);
+                    worker.ReportProgress(sheet / (end - start) * 100);
+                    this.notify += Environment.NewLine + "Generate sucessfully for " + sheetName + ".cs"; 
                 }
             }
         }

@@ -3,7 +3,7 @@
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:prism="http://prismlibrary.com/"
         prism:ViewModelLocator.AutoWireViewModel="True"
-        Title="{Binding Title}" Height="750" Width="700">
+        Title="{Binding Title}" Height="800" Width="700">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"></RowDefinition>
@@ -49,6 +49,7 @@
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
                     <RowDefinition></RowDefinition>
+                    <RowDefinition></RowDefinition>
                 </Grid.RowDefinitions>
                 <!--Chọn file excel để generate-->
                 <Label Content="Input File"
@@ -59,7 +60,7 @@
                        HorizontalAlignment="Center"
                        FontFamily="Times New Roman"
                        Padding="20,10,10,10"
-                       FontWeight="Normal"/>
+                       FontWeight="Normal" Margin="0,7,17.6,0"/>
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1"
                             Grid.Row="0"
@@ -91,7 +92,7 @@
                        HorizontalAlignment="Center"
                        FontFamily="Times New Roman"
                        Padding="20,10,5,10"
-                       FontWeight="Normal"/>
+                       FontWeight="Normal" Margin="0,7,11.6,0"/>
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1"
                             Grid.Row="1"
@@ -122,7 +123,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Times New Roman"
-                       Content="Content" Margin="17,6,29.6,9.8"/>
+                       Content="Content" Margin="10,10,36.6,5.8"/>
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1"
                             Grid.Row="2"
@@ -137,6 +138,7 @@
                              VerticalContentAlignment="Center"
                              TextAlignment="Left"
                              FontSize="22"
+                             Text="{Binding startSheet}"
                              Grid.Column="1"
                              FontFamily="Times New Roman"
                              Background="#F3F781"/>
@@ -150,6 +152,7 @@
                              Grid.Column="1"
                              VerticalContentAlignment="Center"
                              TextAlignment="Left"
+                             Text="{Binding endSheet}"
                              FontSize="22"
                              FontFamily="Times New Roman"
                              Background="#F3F781"/>
@@ -170,7 +173,7 @@
                        VerticalAlignment="Center"
                        HorizontalAlignment="Center"
                        FontFamily="Times New Roman"
-                       Content="Database"></Label>
+                       Content="Database" Margin="10,0.2,23.6,49.2" Grid.RowSpan="2"></Label>
                 <StackPanel Grid.Row="3"
                             Grid.Column="1"
                             Orientation="Horizontal"
@@ -210,6 +213,26 @@
                         </CheckBox.LayoutTransform>
                     </CheckBox>
                 </StackPanel>
+                <Label Grid.Row="4"
+                       Grid.Column="0"
+                       Padding="10"
+                       FontSize="25"
+                       Margin="10,0,0,0"
+                       VerticalAlignment="Center"
+                       HorizontalAlignment="Center"
+                       FontFamily="Times New Roman"
+                       Content="Namespace"></Label>
+                <TextBox Width="400"
+                         Text="{Binding nameSpace}"
+                         TextAlignment="Left"
+                         VerticalContentAlignment="Center"
+                         FontSize="18"
+                         Margin="5"
+                         HorizontalAlignment="Left"
+                         Grid.Row="4"
+                         Grid.Column="1"
+                         FontFamily="Times New Roman"
+                         Background="#F3F781"/>
             </Grid>
         </Border>
         <!--Panel for generate ressult-->
@@ -242,7 +265,7 @@
                             Margin="15,5,15,15">
                     <TextBox TextWrapping="Wrap"
                              Height="300"
-                             Text="Generate database for you...."
+                             Text="{Binding notify}"
                              FontFamily="Times New Roman"
                              FontSize="20"
                              FontWeight="ExtraLight"
